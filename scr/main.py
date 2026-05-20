@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from .router.baseroute import base_router
+from router.baseroute import base_router
 
 app = FastAPI()
 #uvicorn main:app --reload --host 0.0.0.0 --port 5000
