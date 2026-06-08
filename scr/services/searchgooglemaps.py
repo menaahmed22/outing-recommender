@@ -3,22 +3,44 @@ import pandas as pd
 import numpy as np
 from helpers.config import Apify_api
 import math
+from typing import List
 
-print("KEY =", Apify_api)
-def bounding_box(lat, lon, distance_km):
+def bounding_box(latitude :float , longitude :float , distance_km :float =5):
     half = distance_km / 2
 
     delta_lat = half / 111  # 111 Km = 1 degree of latitude
-    delta_lon = half / (111 * math.cos(math.radians(lat))) # 111 Km = 1 degree of longitude at the equator, adjusted for latitude
+    delta_lon = half / (111 * math.cos(math.radians(latitude))) # 111 Km = 1 degree of longitude at the equator, adjusted for latitude
 
     return {
-        "min_lat": lat - delta_lat,
-        "max_lat": lat + delta_lat,
-        "min_lon": lon - delta_lon,
-        "max_lon": lon + delta_lon,
+        "min_lat": latitude - delta_lat,
+        "max_lat": latitude + delta_lat,
+        "min_lon": longitude - delta_lon,
+        "max_lon": longitude + delta_lon,
     }
-bbox = bounding_box(30.4652, 31.1869, 3)
-polygon = [
+# bbox = bounding_box(latitude,longitude)
+#30.4652, 31.1869, 3
+# polygon = [
+#         [
+#             [bbox["min_lon"], bbox["min_lat"]],
+#             [bbox["max_lon"], bbox["min_lat"]],
+#             [bbox["max_lon"], bbox["max_lat"]],
+#             [bbox["min_lon"], bbox["max_lat"]],
+#             [bbox["min_lon"], bbox["min_lat"]],
+#         ]
+#     ]
+def search_google_maps( 
+    latitude : float ,
+    longitude : float ,
+    distance_km : float = 5 ,
+    search_type : str = "restaurant" ,
+    maxCrawledPlacesPerSearch : int = 5  ,
+    customGeolocation_type : str = 'Polygon' ,
+
+    ) :
+
+    client = ApifyClient(Apify_api)
+    bbox = bounding_box(latitude,longitude,distance_km)
+    polygon = [
         [
             [bbox["min_lon"], bbox["min_lat"]],
             [bbox["max_lon"], bbox["min_lat"]],
@@ -27,17 +49,13 @@ polygon = [
             [bbox["min_lon"], bbox["min_lat"]],
         ]
     ]
-def search_google_maps() :
-    print("KEY =", Apify_api)
-
-    client = ApifyClient(Apify_api)
     run_input = {
-        "searchStringsArray": ["hospital"],
+        "searchStringsArray": [search_type],
         # "locationQuery": "Benha , Egypt",
-        "maxCrawledPlacesPerSearch": 5,
+        "maxCrawledPlacesPerSearch": maxCrawledPlacesPerSearch,
        
         "customGeolocation": {
-            "type": "Polygon",
+            "type": customGeolocation_type,
             "coordinates": polygon
         }
 

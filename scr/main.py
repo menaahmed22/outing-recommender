@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from router.baseroute import base_router
-from router.searchgooglemapsroute import searchgooglemapsroute
+from routes.baseroute import base_router
+from routes.searchgooglemapsroute import searchgooglemapsroute
 
 app = FastAPI()
 #uvicorn main:app --reload --host 0.0.0.0 --port 5000

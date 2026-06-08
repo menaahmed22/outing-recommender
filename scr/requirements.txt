@@ -1,7 +1,8 @@
-python==3.11
+# python
 apify-client
 fastapi
 python-dotenv==1.0.1
 uvicorn[standard]==0.29.0
 streamlit 
 requests 
+pydantic-settings==2.2.1
