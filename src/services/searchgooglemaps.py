@@ -4,6 +4,8 @@ import numpy as np
 from helpers.config import Apify_api
 import math
 from typing import List
+import json
+
 
 def bounding_box(latitude :float , longitude :float , distance_km :float =5):
     half = distance_km / 2
@@ -73,7 +75,6 @@ def search_google_maps(
     # scrapped = scrapped.where(pd.notnull(scrapped), None)  #to replace all NAN 
     scrapped = scrapped.astype(object)
     scrapped = scrapped.replace([np.nan], [None])
-    import json
 
     json.dumps(scrapped.to_dict(orient="records"), allow_nan=False)
     # print(scrapped.to_dict(orient="records")[0])

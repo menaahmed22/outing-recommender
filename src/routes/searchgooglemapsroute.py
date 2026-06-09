@@ -1,6 +1,6 @@
 from fastapi import FastAPI , APIRouter
 from services.searchgooglemaps import search_google_maps
-from .schemes.data import ProcessRequest
+from .schemas.data import ProcessRequest
 
 searchgooglemapsroute = APIRouter(
     prefix="/api/searchgooglemapsroute",
