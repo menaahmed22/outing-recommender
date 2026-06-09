@@ -32,7 +32,7 @@ src/
 │   └── schemas/
 │
 └── services/
-    └── search_google_maps.py
+    └── searchgooglemaps.py
 ```
 
 ---
