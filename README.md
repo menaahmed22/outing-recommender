@@ -87,7 +87,7 @@ pip install -r requirements.txt
 Create a `.env` file:
 
 ```env
-APIFY_TOKEN=your_apify_token
+apify_token=your_apify_token
 
 ```
 
