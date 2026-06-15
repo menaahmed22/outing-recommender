@@ -6,6 +6,8 @@ import logging
 from apify_client import ApifyClient
 from services.preprocessing import preprocessing
 import json
+from fastapi import HTTPException
+
 
 
 logger = logging.getLogger('api.search')
@@ -39,10 +41,13 @@ async def searchgooglemaps(process_request : ProcessRequest ,client: ApifyClient
 
 
     except Exception  as e :
-      # logger.error(f"Error while creating client: {e}")
-      # raise
-      logger.exception("Search API failed")
-      return {"error": str(e)}
+    #   # logger.error(f"Error while creating client: {e}")
+      raise HTTPException(
+              status_code=500,
+              detail="Internal server error"
+                  )
+      # logger.exception("Search API failed")
+      # return {"error": str(e)}
 
     # try :
 
