@@ -1,11 +1,9 @@
 import pandas as pd
 import numpy as np
 import math
-from typing import List
-import json
 from apify_client import ApifyClient
 from helpers.config import Apify_api
-
+import json
 
 
 def bounding_box(latitude :float , longitude :float , distance_km :float =5):
@@ -66,5 +64,6 @@ def search_google_maps(
     scrapped_data = scrapped_data.astype(object)
     scrapped_data = scrapped_data.replace([np.nan], [None])
 
-    json.dumps(scrapped_data.to_dict(orient="records"), allow_nan=False)
-    return scrapped_data.to_dict(orient="records")
+    # json.dumps(scrapped_data.to_dict(orient="records"), allow_nan=False)
+    # return scrapped_data.to_dict(orient="records")
+    return scrapped_data

@@ -3,12 +3,17 @@ from routes.baseroute import base_router
 from routes.searchgooglemapsroute import searchgooglemapsroute
 from apify_client import ApifyClient
 from helpers.config import Apify_api
+import logging   
+import json
 
+logger = logging.getLogger("client.error")
 app = FastAPI()
 @app.on_event("startup") #must be "" no ''
 async def startup_event():
-    app.client = ApifyClient(Apify_api)
-
+    try:
+        app.client = ApifyClient(Apify_api)
+    except Exception as e :
+        logger.error(f"problem in running client {e}")
 @app.on_event("shutdown")  
 async def shutdown_event():
     pass  
