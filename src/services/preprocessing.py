@@ -21,6 +21,7 @@ def preprocessing (scrapped_data : pd.DataFrame ,
     final_output =create_ranks(final_output,process_request)
     final_output =replace_unknown_values(final_output)
     final_output = final_output.sort_values(by="OverallRank",ascending=False)
+    final_output = final_output.nlargest(process_request.count_of_results, 'OverallRank')
     final_output = final_output.astype(object).where(pd.notnull(final_output), None)
     final_output = final_output.to_dict(orient="records")
     return final_output

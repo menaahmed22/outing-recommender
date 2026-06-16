@@ -23,6 +23,7 @@ async def searchgooglemaps(process_request : ProcessRequest ,client: ApifyClient
     search_type = process_request.search_type 
     maxCrawledPlacesPerSearch = process_request.maxCrawledPlacesPerSearch 
     customGeolocation_type =process_request.customGeolocation_type 
+    count_of_results=process_request.count_of_results
     
     try :
 
@@ -34,6 +35,7 @@ async def searchgooglemaps(process_request : ProcessRequest ,client: ApifyClient
       search_type = search_type ,
       maxCrawledPlacesPerSearch = maxCrawledPlacesPerSearch ,
       customGeolocation_type =customGeolocation_type ,
+      count_of_results=count_of_results
         )
       final_results=preprocessing(results,process_request,client = client)  
     

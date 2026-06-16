@@ -26,7 +26,8 @@ def search_google_maps(
     longitude : float ,
     distance_km : float = 5 ,
     search_type : str = "restaurant" ,
-    maxCrawledPlacesPerSearch : int = 5  ,
+    maxCrawledPlacesPerSearch : int = 50  ,
+    count_of_results : int =5,
     customGeolocation_type : str = 'Polygon' ,
     
     ) :
