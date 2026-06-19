@@ -1,14 +1,54 @@
 # Outing Recommender
 
-A FastAPI-based recommendation service that helps users discover nearby places based on location and category preferences using Google Maps data through Apify.
+An intelligent location recommendation system that collects, processes, ranks, and recommends places based on user preferences, distance, ratings, and reviews.
+
+## Overview
+
+Outing Recommender is a FastAPI-based application that helps users discover the most relevant places around a selected location.
+
+The system:
+
+- Collects location data from Google Maps through Apify.
+- Cleans and validates retrieved data.
+- Calculates distances between the user and candidate places.
+- Applies a ranking algorithm based on distance, ratings, and review counts.
+- Returns sorted recommendations through REST APIs.
+- Provides a simple frontend interface for interaction.
+
+---
 
 ## Features
 
-- Search for nearby places using latitude and longitude
-- Filter by place category (restaurants, cafes, parks, etc.)
-- FastAPI backend
-- Streamlit frontend
-- Google Maps data powered by Apify
+### Place Search
+
+Search for places using:
+
+- Place type
+- Geographic area
+- Custom polygon coordinates
+
+### Data Processing Pipeline
+
+The system automatically performs:
+
+- Data validation
+- Data cleaning
+- Duplicate removal
+- Distance calculation
+- Ranking calculation
+
+### Ranking Algorithm
+
+Places are ranked using a weighted scoring formula:
+
+```text
+OverallRank =
+0.5 × DistanceScore +
+0.3 × RatingScore +
+0.2 × ReviewScore
+```
+
+The weights can be adjusted according to business requirements.
 
 ---
 
@@ -16,8 +56,6 @@ A FastAPI-based recommendation service that helps users discover nearby places b
 
 ```text
 src/
-│
-├── main.py
 │
 ├── frontend/
 │   └── app.py
@@ -27,21 +65,50 @@ src/
 │   └── dependencies.py
 │
 ├── routes/
-│   ├── base.py
-│   ├── data.py
+│   ├── baseroute.py
+│   ├── processingdata.py
+│   ├── searchgooglemapsroute.py
 │   └── schemas/
+│       ├── data.py
+│       └── outputdata.py
 │
-└── services/
-    └── searchgooglemaps.py
+├── services/
+│   ├── preprocessing.py
+│   ├── searchgooglemaps.py
+│   │
+│   └── preprocessingsteps/
+│       ├── cleaning.py
+│       ├── validation.py
+│       ├── calculating_distance.py
+│       └── ranking.py
+│
+└── main.py
 ```
 
 ---
 
-## Requirements
+## Technologies Used
 
-- Python 3.10+
-- Apify Account
-- Apify API Token
+### Backend
+
+- FastAPI
+- Pydantic
+- Pandas
+- NumPy
+
+### Data Collection
+
+- Apify
+- Google Maps Scraper
+
+### Frontend
+
+- Streamlit
+
+### Geospatial Processing
+
+- Geopy
+- Geographic distance calculations
 
 ---
 
@@ -62,13 +129,13 @@ python -m venv .venv
 
 Activate environment:
 
-Linux/macOS:
+Linux / Mac
 
 ```bash
 source .venv/bin/activate
 ```
 
-Windows:
+Windows
 
 ```bash
 .venv\Scripts\activate
@@ -88,7 +155,6 @@ Create a `.env` file:
 
 ```env
 apify_token=your_apify_token
-
 ```
 
 ---
@@ -108,7 +174,7 @@ http://localhost:5000
 Swagger Documentation:
 
 ```text
-http://localhost:5000/docs
+http://127.0.0.1:8000/docs
 ```
 
 ---
@@ -116,66 +182,85 @@ http://localhost:5000/docs
 ## Run Frontend
 
 ```bash
-streamlit run frontend/app.py
+streamlit run src/frontend/app.py
 ```
 
 ---
 
-## API Example
+## API Endpoints
 
 ### Search Places
 
-**POST**
-
 ```http
-/api/search
+POST /api/searchgooglemaps
 ```
 
-Request Body:
-
-```json
-{
-  "latitude": 31.2001,
-  "longitude": 29.9187,
-  "search_type": "restaurant"
-}
-```
-
-Example Response:
-
-```json
-[
-  {
-    "name": "Restaurant A",
-    "rating": 4.5,
-    "address": "Alexandria, Egypt"
-  }
-]
-```
+Searches and retrieves places from Google Maps.
 
 ---
 
-## Technologies Used
+### Process Data
 
-- FastAPI
-- Streamlit
-- Apify
-- Pydantic
+```http
+POST /api/processingdata
+```
+
+Processes retrieved data and returns ranked recommendations.
+
+---
+
+## Example Workflow
+
+```text
+User Location
+       │
+       ▼
+Google Maps Search
+       │
+       ▼
+Data Validation
+       │
+       ▼
+Data Cleaning
+       │
+       ▼
+Distance Calculation
+       │
+       ▼
+Ranking Engine
+       │
+       ▼
+Recommended Places
+```
 
 ---
 
 ## Future Improvements
 
-- Authentication & Authorization
-- Recommendation Engine
-- Caching Layer (Redis)
-- Rate Limiting
-- Unit Testing
-- Docker Support
-- CI/CD Pipeline
+- Personalized recommendation engine
+- Machine Learning ranking models
+- Learning-to-Rank (LightGBM Ranker)
+- User preference profiles
+- Recommendation explanations
+- Docker deployment
+- Automated testing
+- CI/CD pipeline
+
+---
+
+## Author
+
+Mena Ahmed
+
+Data Scientist & Machine Learning Engineer
+
+GitHub:
+https://github.com/menaahmed22
+
+
 
 ---
 
 ## License
 
-This project is licensed under the MIT License.
+This project is intended for educational and portfolio purposes.
