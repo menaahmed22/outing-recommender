@@ -162,7 +162,13 @@ apify_token=your_apify_token
 ## Run Backend
 
 ```bash
-uvicorn src.main:app --reload
+uvicorn main:app --reload --host 0.0.0.0 --port 5000
+```
+
+API will be available at:
+
+```text
+http://localhost:5000
 ```
 
 Swagger Documentation:
